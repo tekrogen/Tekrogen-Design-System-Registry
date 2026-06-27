@@ -1,9 +1,10 @@
 {
   "name": "@tekrogen/design-system-registry",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "private": true,
   "scripts": {
+    "prepare": "husky",
     "registry:build": "pnpm dlx shadcn@latest build"
   },
   "keywords": [],
