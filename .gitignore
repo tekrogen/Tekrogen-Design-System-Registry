@@ -32,7 +32,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Linux
-*~
 .directory
 .Trash-*
 
@@ -59,9 +58,7 @@ atlassian-ide-plugin.xml
 .vscode-test
 
 # Vim
-*.swp
 *.swo
-*~
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
@@ -69,7 +66,6 @@ atlassian-ide-plugin.xml
 [._]sw[a-p]
 
 # Emacs
-*~
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock
@@ -105,7 +101,6 @@ secrets/
 *.private
 id_rsa*
 *.p8
-*.p12
 *.keychain
 
 # ==============================================================================
@@ -122,21 +117,17 @@ jspm_packages/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-.yarn-integrity
 /.yarn/*
 !/.yarn/releases
 !/.yarn/plugins
 !/.yarn/sdks
 
 # Python
-__pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -171,20 +162,16 @@ dist/
 build/
 out/
 gen/
-*.tsbuildinfo
+
 
 # Next.js
 .next/
-out/
-.vercel
 next-env.d.ts
 
 # Nuxt.js
 .nuxt/
-dist/
 
 # Gatsby
-.cache/
 public/
 
 # Vuepress
@@ -193,9 +180,6 @@ public/
 
 # Docusaurus
 .docusaurus/
-
-# Serverless
-.serverless/
 
 # FuseBox
 .fusebox/
@@ -247,7 +231,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
 
 # Runtime data
 pids/
@@ -275,7 +259,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
 
 # General temporary files
 *.tmp
@@ -305,10 +288,9 @@ __pycache__/
 # npm
 *.tgz
 package-lock.json
-npm-debug.log*
+
 
 # Yarn
-yarn-error.log*
 .yarn-integrity
 
 # pnpm
@@ -384,3 +366,5 @@ lib-cov/
 # custom-directory/
 # *.custom-extension
 
+# Admin secret
+/admin/internal/

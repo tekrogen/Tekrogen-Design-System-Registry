@@ -1,8 +1,8 @@
 {
-  "name": "tekrogen-design-system-registry",
+  "name": "@tekrogen/design-system-registry",
   "version": "1.0.0",
   "description": "",
- "private": true,
+  "private": true,
   "scripts": {
     "registry:build": "pnpm dlx shadcn@latest build"
   },
@@ -15,5 +15,10 @@
       "version": "^11.9.0",
       "onFail": "download"
     }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
+    "husky": "^9.1.7"
   }
 }
