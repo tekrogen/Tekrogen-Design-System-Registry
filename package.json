@@ -1,0 +1,19 @@
+{
+  "name": "tekrogen-design-system-registry",
+  "version": "1.0.0",
+  "description": "",
+ "private": true,
+  "scripts": {
+    "registry:build": "pnpm dlx shadcn@latest build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.9.0",
+      "onFail": "download"
+    }
+  }
+}
