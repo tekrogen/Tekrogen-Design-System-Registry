@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/tekrogen/Tekrogen-Design-System-Registry/compare/v0.1.0...v0.2.0) (2026-06-28)
+
+
+### Features
+
+* scaffold shadcn registry app from registry-starter ([#2](https://github.com/tekrogen/Tekrogen-Design-System-Registry/issues/2)) ([bdaeae0](https://github.com/tekrogen/Tekrogen-Design-System-Registry/commit/bdaeae00fee27232378a7e238e84e6132a28e439))
+
 ## 0.1.0 (2026-06-27)
 
 
