@@ -2,17 +2,14 @@
 
 import { Logo } from "@/components/logo";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import * as React from "react";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -29,63 +26,65 @@ const formSchema = z.object({
   }),
 });
 
+type FieldErrors = Partial<Record<keyof z.infer<typeof formSchema>, string>>;
+
 function LoginForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [errors, setErrors] = React.useState<FieldErrors>({});
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const formData = new FormData(event.currentTarget);
+    const result = formSchema.safeParse({
+      email: String(formData.get("email") ?? ""),
+      password: String(formData.get("password") ?? ""),
+    });
+
+    if (!result.success) {
+      const fieldErrors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0];
+        if ((key === "email" || key === "password") && !fieldErrors[key]) {
+          fieldErrors[key] = issue.message;
+        }
+      }
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setErrors({});
     setIsLoading(true);
   }
 
   return (
     <div className="grid gap-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="name@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center justify-between">
-                  <FormLabel>Password</FormLabel>
-                  <Link
-                    href="#forgot-password"
-                    className="text-muted-foreground text-xs hover:text-primary"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
-          </Button>
-        </form>
+      <Form onSubmit={onSubmit} className="space-y-4" noValidate>
+        <FormItem error={errors.email}>
+          <FormLabel>Email</FormLabel>
+          <FormControl>
+            <Input name="email" type="email" placeholder="name@example.com" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem error={errors.password}>
+          <div className="flex items-center justify-between">
+            <FormLabel>Password</FormLabel>
+            <Link
+              href="#forgot-password"
+              className="text-muted-foreground text-xs hover:text-primary"
+            >
+              Forgot password?
+            </Link>
+          </div>
+          <FormControl>
+            <Input name="password" type="password" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Signing in..." : "Sign in"}
+        </Button>
       </Form>
 
       <div className="relative">

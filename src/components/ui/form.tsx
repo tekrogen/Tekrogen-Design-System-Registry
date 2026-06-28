@@ -3,81 +3,52 @@
 import { type Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui";
 
 import * as React from "react";
-import {
-  Controller,
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
-  FormProvider,
-  useFormContext,
-  useFormState,
-} from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const Form = FormProvider;
-
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
-  name: TName;
-};
-
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
-);
-
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
-  return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>
-  );
-};
-
-const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext);
-  const itemContext = React.useContext(FormItemContext);
-  const { getFieldState } = useFormContext();
-  const formState = useFormState({ name: fieldContext.name });
-  const fieldState = getFieldState(fieldContext.name, formState);
-
-  if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>");
-  }
-
-  const { id } = itemContext;
-
-  return {
-    id,
-    name: fieldContext.name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formMessageId: `${id}-form-item-message`,
-    ...fieldState,
-  };
-};
+// Lightweight, dependency-free form primitives. The error string for a field is
+// passed to <FormItem error={...}> by the consumer (e.g. from a zod parse);
+// labels, controls, and messages read it from context for ids + a11y wiring.
 
 type FormItemContextValue = {
   id: string;
+  error?: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
-);
+const FormItemContext = React.createContext<FormItemContextValue | null>(null);
 
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
+const useFormField = () => {
+  const itemContext = React.useContext(FormItemContext);
+
+  if (!itemContext) {
+    throw new Error("useFormField should be used within <FormItem>");
+  }
+
+  const { id, error } = itemContext;
+
+  return {
+    id,
+    error,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+  };
+};
+
+function Form({ className, ...props }: React.ComponentProps<"form">) {
+  return <form data-slot="form" className={className} {...props} />;
+}
+
+function FormItem({
+  className,
+  error,
+  ...props
+}: React.ComponentProps<"div"> & { error?: string }) {
   const id = React.useId();
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={{ id, error }}>
       <div
         data-slot="form-item"
         className={cn("grid gap-2", className)}
@@ -140,7 +111,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
 
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : props.children;
+  const body = error ? error : props.children;
 
   if (!body) {
     return null;
@@ -166,5 +137,4 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
-  FormField,
 };

@@ -772,7 +772,7 @@
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
-      "description": "Building forms with React Hook Form and Zod.",
+      "description": "Dependency-free form primitives (labels, controls, messages) for native forms with Zod validation.",
       "files": [
         {
           "path": "src/components/ui/form.tsx",
