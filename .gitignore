@@ -369,5 +369,7 @@ lib-cov/
 # custom-directory/
 # *.custom-extension
 
-# Admin secret
-/admin/internal/
+# Admin secret — keep internal docs private, EXCEPT the process/workflow guides.
+# Ignore the directory CONTENTS (not the dir itself) so a subdir can be re-included.
+/admin/internal/*
+!/admin/internal/workflows/
