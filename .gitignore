@@ -296,7 +296,7 @@ package-lock.json
 .yarn-integrity
 
 # pnpm
-pnpm-lock.yaml
+# pnpm-lock.yaml is committed on purpose (required for reproducible installs + CI --frozen-lockfile)
 .pnpm-store/
 
 # ==============================================================================
