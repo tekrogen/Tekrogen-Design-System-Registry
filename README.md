@@ -69,17 +69,30 @@ visual language for the four entities, deployable on Vercel.
 **Toolchain**
 - **pnpm** — enforced package manager (`devEngines`, lockfile).
 - **commitlint** — Conventional Commits, no leading emoji.
-- **husky** — git hooks (hooks dir not yet committed).
+- **husky** — git hooks (`.husky/commit-msg` runs commitlint on every commit).
 - **Shadcn CLI** — `pnpm registry:build` builds the registry.
 
 ## Release Management
 
-Releases are automated from commit history:
+Releases and `CHANGELOG.md` are fully automated by
+[release-please](https://github.com/googleapis/release-please) (active —
+current release **v0.1.0**). The loop:
 
-1. Land Conventional Commits (`feat:`, `fix:`, `chore(deps):`, `fix(security):`) — enforced by commitlint.
-2. **release-please** parses them to compute the next semver bump and update `CHANGELOG.md`.
-3. The release PR, once merged, tags the version.
+1. Land Conventional Commits (`feat:`, `fix:`, `chore(deps):`, `fix(security):`) —
+   no leading emoji; enforced by the commitlint `commit-msg` hook.
+2. On push to `main`, **release-please** opens/updates a standing **Release PR**
+   that bumps the version (`package.json` + `.release-please-manifest.json`) and
+   writes the new `CHANGELOG.md` section.
+3. Merge the Release PR to ship — this tags `vX.Y.Z`, publishes a GitHub release,
+   and commits the changelog to `main`.
+
+While the repo is `0.x` (`bump-minor-pre-major`), `feat:` bumps the minor and
+`fix:` the patch; breaking changes stay in the minor until `1.0.0`.
+
+> **Do not hand-edit `CHANGELOG.md`.** It is generated from commit history —
+> edits are overwritten on the next release. Fix the changelog by fixing the
+> commit messages.
 
 Branch naming follows the governance convention in `CLAUDE.md`: `<type>/<issue#>-<slug>`,
-with `Closes #N` in the PR body.
+with `Closes #N` in the PR body. Merged branches are auto-deleted on the remote.
 
