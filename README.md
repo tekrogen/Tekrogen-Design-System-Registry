@@ -29,7 +29,7 @@ Forked Project Functional Goal: https://github.com/vercel/registry-starter/
 
 ---
 
-## About
+## About Tekrogen Design System Registry
 
 Tekrogen Design System Registry is a collection of design systems and style guides for Tekrogen's four entities: .org, .studio, .com, and .net. The registry provides a unified visual language and design system for creating consistent and high-quality visual products across all Tekrogen entities.
 
@@ -38,6 +38,33 @@ The registry is built on top of the Tekrogen Branding System, which serves as th
 The registry is designed to be easy to use and integrate into existing design workflows. It includes a range of tools and resources, including design files, code snippets, and documentation, to help designers and developers create visually stunning and consistent products.
 
 Overall, the Tekrogen Design System Registry is a valuable resource for Tekrogen's designers and developers, providing a unified visual language and design system for creating high-quality visual products across all Tekrogen entities.
+
+---
+
+## What is a registry - Mental model: two halves
+
+A **shadcn registry** is a code-distribution mechanism: a set of JSON files,
+served over HTTP, that the `shadcn` CLI reads to copy components — along with
+their npm dependencies, other registry items they depend on, and theme tokens —
+straight into a project. Unlike an npm package, the code is *copied into* the
+consumer, who then owns and can edit it (shadcn's "open code" model). Tekrogen's
+registry distributes our design-system components this way.
+
+In practice it has an **authoring** side (this repo) and a **consuming** side
+(any app that installs from it):
+
+```
+authoring (here)                         consuming (any project)
+─────────────────                        ───────────────────────
+registry/<category>/<item>.tsx           components.json → registries: { "@tekrogen": ".../r/{name}.json" }
+registry.json  (manifest)                       │
+   │  pnpm registry:build                       ▼
+   ▼                                      pnpm dlx shadcn@latest add @tekrogen/<item>
+public/r/<item>.json  (built, served)  ──────►  files copied into the consumer's project
+```
+
+You **author** source files + a manifest, **build** them into static JSON under
+`public/r/`, **host** that (Vercel), and consumers **install** items by namespace.
 
 ---
 
