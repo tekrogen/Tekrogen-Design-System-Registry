@@ -29,7 +29,7 @@ Forked Project Functional Goal: https://github.com/vercel/registry-starter/
 
 ---
 
-## About
+## About Tekrogen Design System Registry
 
 Tekrogen Design System Registry is a collection of design systems and style guides for Tekrogen's four entities: .org, .studio, .com, and .net. The registry provides a unified visual language and design system for creating consistent and high-quality visual products across all Tekrogen entities.
 
@@ -41,36 +41,124 @@ Overall, the Tekrogen Design System Registry is a valuable resource for Tekrogen
 
 ---
 
+## What is a registry - Mental model: two halves
+
+A **shadcn registry** is a code-distribution mechanism: a set of JSON files,
+served over HTTP, that the `shadcn` CLI reads to copy components — along with
+their npm dependencies, other registry items they depend on, and theme tokens —
+straight into a project. Unlike an npm package, the code is *copied into* the
+consumer, who then owns and can edit it (shadcn's "open code" model). Tekrogen's
+registry distributes our design-system components this way.
+
+In practice it has an **authoring** side (this repo) and a **consuming** side
+(any app that installs from it):
+
+```
+authoring (here)                         consuming (any project)
+─────────────────                        ───────────────────────
+registry/<category>/<item>.tsx           components.json → registries: { "@tekrogen": ".../r/{name}.json" }
+registry.json  (manifest)                       │
+   │  pnpm registry:build                       ▼
+   ▼                                      pnpm dlx shadcn@latest add @tekrogen/<item>
+public/r/<item>.json  (built, served)  ──────►  files copied into the consumer's project
+```
+
+You **author** source files + a manifest, **build** them into static JSON under
+`public/r/`, **host** that (Vercel), and consumers **install** items by namespace.
+
+---
+
+## Using the app
+
+This repo is a [Next.js](https://nextjs.org) app (forked from
+[registry-starter](https://github.com/vercel/registry-starter)) that both
+**serves** the registry JSON and provides a browsable preview UI.
+
+### Prerequisites
+- **Node** 20+
+- **pnpm** (enforced via `devEngines`; `npx`/`npm` are intentionally blocked).
+  If you don't have it: `corepack enable` or `npm i -g pnpm`.
+
+### Run it locally
+```bash
+pnpm install          # install dependencies
+pnpm dev              # builds the registry, then starts Next.js on http://localhost:3000
+```
+
+`dev` and `build` run `pnpm registry:build` first, so the served JSON under
+`public/r/` is always regenerated from `registry.json` (that folder is
+git-ignored — never commit it).
+
+### What you can open
+| Route | Shows |
+|---|---|
+| `/` | Registry index — every item in `registry.json` |
+| `/registry/[name]` | A single item's generated JSON / install info |
+| `/demo/[name]` | Live preview of a block/component (e.g. `/demo/dashboard`) |
+| `/tokens` | The design tokens (colors, fonts) from the theme |
+
+### Common commands
+```bash
+pnpm dev              # local dev server (regenerates registry first)
+pnpm build            # production build (registry:build + next build)
+pnpm start            # serve the production build
+pnpm registry:build   # build registry JSON only → public/r/*.json
+pnpm lint             # biome check
+pnpm lint:fix         # biome check --write (safe autofixes)
+```
+
+### Add a registry item
+1. Create the source under `registry/<category>/<item>.tsx` (this fork organizes
+   by **category** — e.g. `registry/layouts/`, `registry/common/`).
+2. Add an entry to `registry.json` (`name`, `type`, `title`, `files[]`, and any
+   `dependencies` / `registryDependencies` / `cssVars`).
+3. `pnpm registry:build` and open `/demo/<item>` (or `/registry/<item>`) to verify.
+
+Full authoring reference: [`admin/internal/workflows/00.install-shadcn-registry.md`](admin/internal/workflows/00.install-shadcn-registry.md).
+
+### Install items into another project
+Once this app is deployed, a consumer adds the namespace once and installs by name:
+```bash
+# configure once (or add "@tekrogen" to the consumer's components.json "registries")
+pnpm dlx shadcn@latest registry add @tekrogen=https://<your-domain>/r/{name}.json
+# then install any item
+pnpm dlx shadcn@latest add @tekrogen/<item>
+```
+
+---
+
 ## What's in the box
 
-> **Status:** early scaffold. The registry application (Shadcn items, `registry.json`,
-> Next.js surface) is not built yet — what's committed today is governance, tooling,
-> and the business knowledge base.
+> **Status:** registry app scaffolded from registry-starter and building. Items
+> are still the starter's defaults — Tekrogen rebranding of components/tokens is
+> in progress.
 
 ```text
 .
+├── src/                   # Next.js app — registry index, /registry/[name], /demo/[name], /tokens
+├── registry/              # Registry item SOURCE, organized by category (common/, layouts/, …)
+├── registry.json          # Registry manifest (the list of items the build compiles)
+├── public/                # Static assets; built JSON lands in public/r/ (git-ignored)
+├── components.json        # shadcn config (style: new-york)
+├── biome.json             # Lint/format (vendored ui/ dirs excluded)
+├── next.config.ts / postcss.config.mjs / tsconfig.json
+├── package.json           # pnpm-only; app + registry scripts
+├── pnpm-workspace.yaml    # pnpm settings (allowed native build scripts)
 ├── CLAUDE.md              # Working rules: behavioral guidelines + 5 hard project rules
-├── README.md              # This file
 ├── CHANGELOG.md           # Generated by release-please (Conventional Commits)
 ├── LICENSE                # MIT
-├── package.json           # pnpm-only; script: `registry:build`
-├── commitlint.config.cjs  # Conventional Commits, no emoji
-├── pnpm-lock.yaml
-├── env.example            # Vercel env vars (VERCEL_PROJECT_PRODUCTION_URL, REGISTRY_AUTH_TOKEN)
+├── .env.example           # Vercel env vars (VERCEL_PROJECT_PRODUCTION_URL, REGISTRY_AUTH_TOKEN)
 └── admin/                 # Knowledge base (not shipped product)
-    ├── internal/business/ # BNR roadmap, domain→architecture mapping, Ghost commerce/licensing specs
-    └── public/            # Public brief, investor pitch
+    ├── internal/business/   # BNR roadmap, domain→architecture mapping, Ghost specs
+    ├── internal/workflows/  # How-to guides (release-please, shadcn registry install)
+    └── public/              # Public brief, investor pitch
 ```
 
-**Planned** (per the [registry-starter](https://github.com/vercel/registry-starter/) fork goal):
-a Shadcn UI registry — `registry.json` + registry items — surfacing the unified Tekrogen
-visual language for the four entities, deployable on Vercel.
-
 **Toolchain**
-- **pnpm** — enforced package manager (`devEngines`, lockfile).
-- **commitlint** — Conventional Commits, no leading emoji.
-- **husky** — git hooks (`.husky/commit-msg` runs commitlint on every commit).
-- **Shadcn CLI** — `pnpm registry:build` builds the registry.
+- **pnpm** — enforced package manager (`devEngines`, committed lockfile).
+- **Next.js + shadcn** — the registry app; `pnpm registry:build` compiles the registry.
+- **biome** — lint/format (`pnpm lint`).
+- **commitlint + husky** — Conventional Commits, no leading emoji (`.husky/commit-msg`).
 
 ## Release Management
 

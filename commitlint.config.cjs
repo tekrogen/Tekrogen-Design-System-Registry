@@ -5,5 +5,5 @@
  * Guide: GIT-Workflows/release-please/00.install-release-please.md
  */
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
 };
