@@ -5,6 +5,8 @@
     "ignore": [
       "node_modules",
       "playwright-report",
+      "test-results",
+      "coverage",
       ".next",
       ".vercel",
       ".idea",
