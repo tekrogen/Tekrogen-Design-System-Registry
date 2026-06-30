@@ -1,23 +1,19 @@
-import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import { JetBrains_Mono, Poppins } from "next/font/google";
 import React, { type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
 import "@/app/globals.css";
 
-const GeistSans = Geist({
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
 });
 
-const GeistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-});
-
-const MontserratSerif = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-serif",
 });
 
 export default function RootLayout({
@@ -29,9 +25,8 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        GeistSans.variable,
-        GeistMono.variable,
-        MontserratSerif.variable,
+        poppins.variable,
+        jetbrainsMono.variable,
         "bg-background text-foreground",
       )}
     >
