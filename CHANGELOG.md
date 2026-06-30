@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/tekrogen/Tekrogen-Design-System-Registry/compare/v0.2.0...v0.3.0) (2026-06-30)
+
+
+### Features
+
+* adopt Tekrogen brand tokens and fonts (rebrand Phase 1) ([#5](https://github.com/tekrogen/Tekrogen-Design-System-Registry/issues/5)) ([5c322e3](https://github.com/tekrogen/Tekrogen-Design-System-Registry/commit/5c322e396a34170925888ee3e9eb1898fa4000f3))
+
 ## [0.2.0](https://github.com/tekrogen/Tekrogen-Design-System-Registry/compare/v0.1.0...v0.2.0) (2026-06-28)
 
 
