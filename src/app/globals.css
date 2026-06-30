@@ -3,96 +3,237 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Self-hosted Tekrogen brand fonts (latin woff2, OFL) ───────────────────
+ * Source: Tekrogen-Brand-Design-System/colors_and_type.css. Sans-only brand:
+ * Poppins (display/body) + Manrope (secondary) + JetBrains Mono (mono). */
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-500italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-v24-latin-600italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/manrope-v20-latin-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/manrope-v20-latin-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/manrope-v20-latin-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/manrope-v20-latin-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/JetBrainsMono-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/JetBrainsMono-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/JetBrainsMono-Bold.woff2") format("woff2");
+}
+
 :root {
-  --background: oklch(0.97 0.01 80.72);
-  --foreground: oklch(0.3 0.04 30.2);
+  /* ─── Tekrogen brand palette (theme-invariant base) ─── */
+  --tk-org: #446e88;
+  --tk-studio: #6491ac;
+  --tk-com: #0db4b9;
+  --tk-net: #7edba5;
+  --tk-cyan: #1fd5da;
+  --tk-ink: #0e1116;
+  --tk-ink-soft: #171c24;
+  --tk-ink-2: #1f2731;
+  --tk-teal-paper: #086a6f; /* AA accent/link/ring on paper (cyan fails light) */
+  --tk-danger: #d96b5c;
 
-  --card: oklch(0.97 0.01 80.72);
-  --card-foreground: oklch(0.3 0.04 30.2);
+  /* ─── shadcn semantic colors · LIGHT / Paper ─── */
+  --background: #f3f5f7;
+  --foreground: #1f2731;
 
-  --popover: oklch(0.97 0.01 80.72);
-  --popover-foreground: oklch(0.3 0.04 30.2);
+  --card: #ffffff;
+  --card-foreground: #1f2731;
 
-  --primary: oklch(0.52 0.13 144.17);
-  --primary-foreground: oklch(1.0 0 0);
+  --popover: #ffffff;
+  --popover-foreground: #1f2731;
 
-  --secondary: oklch(0.96 0.02 147.64);
-  --secondary-foreground: oklch(0.43 0.12 144.31);
+  --primary: var(--tk-teal-paper);
+  --primary-foreground: #ffffff;
 
-  --muted: oklch(0.94 0.01 74.42);
-  --muted-foreground: oklch(0.45 0.05 39.21);
+  --secondary: #e9edf1;
+  --secondary-foreground: #1f2731;
 
-  --accent: oklch(0.9 0.05 146.04);
-  --accent-foreground: oklch(0.43 0.12 144.31);
+  --muted: #e9edf1;
+  --muted-foreground: #6b7280; /* paper fg-3 (AA) */
 
-  --destructive: oklch(0.54 0.19 26.72);
-  --destructive-foreground: oklch(1.0 0 0);
+  --accent: #e9edf1;
+  --accent-foreground: #1f2731;
 
-  --border: oklch(0.88 0.02 74.64);
-  --input: oklch(0.88 0.02 74.64);
-  --ring: oklch(0.52 0.13 144.17);
+  --destructive: var(--tk-danger);
+  --destructive-foreground: #ffffff;
 
-  --chart-1: oklch(0.67 0.16 144.21);
-  --chart-2: oklch(0.58 0.14 144.18);
-  --chart-3: oklch(0.52 0.13 144.17);
-  --chart-4: oklch(0.43 0.12 144.31);
-  --chart-5: oklch(0.22 0.05 145.73);
+  --border: #d4dce3;
+  --input: #d4dce3;
+  --ring: var(--tk-teal-paper);
 
-  --sidebar: oklch(0.94 0.01 74.42);
-  --sidebar-foreground: oklch(0.3 0.04 30.2);
-  --sidebar-primary: oklch(0.52 0.13 144.17);
-  --sidebar-primary-foreground: oklch(1.0 0 0);
-  --sidebar-accent: oklch(0.9 0.05 146.04);
-  --sidebar-accent-foreground: oklch(0.43 0.12 144.31);
-  --sidebar-border: oklch(0.88 0.02 74.64);
-  --sidebar-ring: oklch(0.52 0.13 144.17);
+  --chart-1: var(--tk-org);
+  --chart-2: var(--tk-studio);
+  --chart-3: var(--tk-com);
+  --chart-4: var(--tk-net);
+  --chart-5: var(--tk-cyan);
 
-  --radius: 0.5rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1f2731;
+  --sidebar-primary: var(--tk-teal-paper);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e9edf1;
+  --sidebar-accent-foreground: #1f2731;
+  --sidebar-border: #d4dce3;
+  --sidebar-ring: var(--tk-teal-paper);
+
+  /* base radius → shadcn derives sm/md/lg = brand 6/8/10px */
+  --radius: 0.625rem;
 }
 
 .dark {
-  --background: oklch(0.15 0.01 74.42);
-  --foreground: oklch(0.95 0.02 80.72);
+  /* ─── shadcn semantic colors · DARK / Ink (brand default) ─── */
+  --background: var(--tk-ink);
+  --foreground: #e7ecf2;
 
-  --card: oklch(0.12 0.01 80.72);
-  --card-foreground: oklch(0.95 0.02 80.72);
+  --card: var(--tk-ink-soft);
+  --card-foreground: #e7ecf2;
 
-  --popover: oklch(0.12 0.01 80.72);
-  --popover-foreground: oklch(0.95 0.02 80.72);
+  --popover: var(--tk-ink-soft);
+  --popover-foreground: #e7ecf2;
 
-  --primary: oklch(0.58 0.15 144.17);
-  --primary-foreground: oklch(0.09 0.01 80.72);
+  --primary: var(--tk-cyan);
+  --primary-foreground: var(--tk-ink); /* dark text on bright cyan (AA) */
 
-  --secondary: oklch(0.15 0.02 147.64);
-  --secondary-foreground: oklch(0.65 0.12 144.31);
+  --secondary: var(--tk-ink-2);
+  --secondary-foreground: #e7ecf2;
 
-  --muted: oklch(0.18 0.01 74.42);
-  --muted-foreground: oklch(0.65 0.03 74.42);
+  --muted: #0a0d12;
+  --muted-foreground: #8a98a8; /* fg-3 (AA on ink) */
 
-  --accent: oklch(0.22 0.04 146.04);
-  --accent-foreground: oklch(0.65 0.12 144.31);
+  --accent: var(--tk-ink-2);
+  --accent-foreground: #e7ecf2;
 
-  --destructive: oklch(0.62 0.22 26.72);
-  --destructive-foreground: oklch(0.95 0.02 80.72);
+  --destructive: var(--tk-danger);
+  --destructive-foreground: #ffffff;
 
-  --border: oklch(0.22 0.02 74.64);
-  --input: oklch(0.22 0.02 74.64);
-  --ring: oklch(0.58 0.15 144.17);
+  --border: var(--tk-ink-2);
+  --input: var(--tk-ink-2);
+  --ring: var(--tk-cyan);
 
-  --chart-1: oklch(0.72 0.16 144.21);
-  --chart-2: oklch(0.63 0.14 144.18);
-  --chart-3: oklch(0.58 0.15 144.17);
-  --chart-4: oklch(0.48 0.12 144.31);
-  --chart-5: oklch(0.35 0.08 145.73);
+  --chart-1: var(--tk-org);
+  --chart-2: var(--tk-studio);
+  --chart-3: var(--tk-com);
+  --chart-4: var(--tk-net);
+  --chart-5: var(--tk-cyan);
 
-  --sidebar: oklch(0.15 0.01 74.42);
-  --sidebar-foreground: oklch(0.95 0.02 80.72);
-  --sidebar-primary: oklch(0.58 0.15 144.17);
-  --sidebar-primary-foreground: oklch(0.09 0.01 80.72);
-  --sidebar-accent: oklch(0.22 0.04 146.04);
-  --sidebar-accent-foreground: oklch(0.65 0.12 144.31);
-  --sidebar-border: oklch(0.22 0.02 74.64);
-  --sidebar-ring: oklch(0.58 0.15 144.17);
+  --sidebar: var(--tk-ink-soft);
+  --sidebar-foreground: #e7ecf2;
+  --sidebar-primary: var(--tk-cyan);
+  --sidebar-primary-foreground: var(--tk-ink);
+  --sidebar-accent: var(--tk-ink-2);
+  --sidebar-accent-foreground: #e7ecf2;
+  --sidebar-border: var(--tk-ink-2);
+  --sidebar-ring: var(--tk-cyan);
+}
+
+/* Brand fonts as real theme tokens — overrides Tailwind's default --font-sans
+ * and is applied to <body> via preflight. Sans-only brand (serif → sans). */
+@theme {
+  --font-sans: "Poppins", "Manrope", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-serif: "Poppins", "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo,
+    monospace;
 }
 
 @theme inline {
@@ -136,23 +277,10 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
-
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
 }
 
 @layer base {
