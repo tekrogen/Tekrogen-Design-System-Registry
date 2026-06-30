@@ -26,3 +26,9 @@ jobs:
         run: |
           pnpm run lint
           echo "::notice title=🧼️ Lint::Complete"
+
+      - name: Test
+        id: test
+        run: |
+          pnpm run test
+          echo "::notice title=🧪 Test::Complete"
